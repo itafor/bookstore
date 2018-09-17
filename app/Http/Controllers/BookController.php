@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Book;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\Book\BookResource;
 class BookController extends Controller
 {
     /**
@@ -46,7 +46,7 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Book $book)
-    {return $book;
+    {
         //
         return new BookResource($book);
     }
