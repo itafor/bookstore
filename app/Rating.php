@@ -10,7 +10,7 @@ class Rating extends Model
     protected $fillable = ['book_id', 'user_id', 'rating'];
 
     //A rating can only belong to one book.
-    public function book()
+    public function books()
     {
       return $this->belongsTo(Book::class);
     }
