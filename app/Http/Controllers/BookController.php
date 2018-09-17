@@ -15,6 +15,7 @@ class BookController extends Controller
     public function index()
     {
         //
+        return Book::all();
     }
 
     /**
@@ -45,8 +46,9 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Book $book)
-    {
+    {return $book;
         //
+        return new BookResource($book);
     }
 
     /**
