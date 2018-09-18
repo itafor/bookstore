@@ -7,6 +7,9 @@ use App\Model\Review;
 use App\User;
 class Book extends Model
 {
+
+    // To avoid getting default mass assignment error 
+    protected $fillable = ['title','description','user_id'];
     //
     //A book has many review
     public function reviews(){

@@ -25,8 +25,7 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255|unique:books',
-            'description' => 'required',
-            'user_id' => 'required',
+            'description' => 'required'
         ];
     }
 }

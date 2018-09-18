@@ -40,13 +40,15 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BookRequest $request)
+    public function store(BookRequest $request, Book $book)
     {
-       $books = new Book();
-       $books->title = $request->title;
-       $books->description = $request->description;
-       $books->user_id = $request->user_id;
-       $books->save();
+           
+
+       $books = Book::create([
+        'user_id' => $request->user()->id,
+        'title' => $request->title,
+        'description' => $request->description,
+      ]);
 
        return Response([
         'data' => new BookResource($books)
@@ -86,8 +88,22 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
-    }
+       //
+        //return $book->update($request->all());
+
+
+            if ($request->user()->id !== $book->user_id) {
+        return response()->json(['error' => 'You can only edit your own books.'], 403);
+      }
+
+      $book->update($request->only(['title', 'description']));
+
+
+      return Response([
+        'data' => new BookResource($book)
+       ],Response::HTTP_CREATED);
+
+    } 
 
     /**
      * Remove the specified resource from storage.
