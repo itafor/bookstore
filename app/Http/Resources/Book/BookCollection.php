@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Book;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\Resource;
 
-class BookCollection extends ResourceCollection
+class BookCollection extends Resource
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +14,17 @@ class BookCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+       
+        return [
+            'title'=>$this->title,
+            'Average rating' => $this->reviews->count() > 0 ? round($this->reviews->sum('star')/$this->reviews->count(),2)
+            :'No rating yet',
+
+            'href' => [
+                'link' => route('books.show',$this->id)
+            ]
+        ];
+
+       // echo '<pre>'; print_r($json);
     }
 }

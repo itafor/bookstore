@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Resources\ReviewResource;
 use App\Model\Review;
+use App\Model\Book;
 use Illuminate\Http\Request;
-
 class ReviewController extends Controller
 {
     /**
@@ -12,9 +12,10 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Book $book)
     {
-        //
+    
+        return ReviewResource::collection($book->reviews);
     }
 
     /**
