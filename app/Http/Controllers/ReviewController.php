@@ -7,6 +7,12 @@ use App\Model\Book;
 use Illuminate\Http\Request;
 class ReviewController extends Controller
 {
+
+//securing end point to review and rate a book
+    // public function __construct()
+    // {
+    //   $this->middleware('auth:api');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +40,10 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Book $book)
     {
         //
+        return $book;
     }
 
     /**
