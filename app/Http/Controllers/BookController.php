@@ -113,6 +113,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+       $book->delete();
+
+       return Response(null,Response::HTTP_NO_CONTENT);
     }
 }
