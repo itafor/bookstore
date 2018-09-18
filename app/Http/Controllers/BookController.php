@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Model\Book;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Resources\Book\BookCollection;
+use Symfony\Component\HttpFoundation\Response;
 class BookController extends Controller
 {
+
+     public function __construct(){
+        $this->middleware('auth:api')->except('index','show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,9 +40,18 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        //
+       $books = new Book();
+       $books->title = $request->title;
+       $books->description = $request->description;
+       $books->user_id = $request->user_id;
+       $books->save();
+
+       return Response([
+        'data' => new BookResource($books)
+       ],Response::HTTP_CREATED);
+
     }
 
     /**
