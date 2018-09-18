@@ -17,7 +17,15 @@ class BookResource extends Resource
         return [
             'title'=>$this->title,
             'description' =>$this->description,
-            'user_id'=>$this->user_id
+            'user_id'=>$this->user_id,
+            'Total rating' => $this->reviews->sum('star'),
+            //'Average rating' => $this->reviews->avg('star'),
+            'Average rating' => $this->reviews->count() > 0 ? round($this->reviews->sum('star')/$this->reviews->count(),2)
+            :'No rating yet',
+            
+            'href' => [
+                'reviews' => route('reviews.index',$this->id)
+            ],
         ];
     }
 }
