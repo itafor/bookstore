@@ -15,9 +15,12 @@ class ReviewResource extends Resource
     public function toArray($request)
     {
         return  [
+
+            'id'=>$this->id,
             'customer' => $this->customer,
             'body' => $this->review,
-            'star' => $this->star
+            'star' => $this->star,
+            'user_id'=>$this->user_id
         ];
 
         //echo '<pre>'; print_r($json);

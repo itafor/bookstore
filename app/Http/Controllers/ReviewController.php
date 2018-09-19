@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Resources\ReviewResource;
 use App\Model\Review;
 use App\Model\Book;
+use App\Http\Requests\ReviewRequest;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Auth;
+use App\User;
 class ReviewController extends Controller
 {
 
@@ -40,10 +45,25 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Book $book)
+    public function store(ReviewRequest $request, Book $book, Review $review)
     {
-        //
-        return $book;
+        
+        // $review = new Review($request->all());
+        // $book->reviews()->save($review);
+
+        $review = Review::create([
+        'book_id' => $book->id,
+        'user_id' => 3, //auth::user()->id(), having issue here auth dont seem to work here
+        'customer' => $request->customer,
+        'star' => $request->star,
+        'review' => $request->review,
+      ]);
+
+    
+        //dispay a book detail after creation
+       return Response([
+        'data' => new ReviewResource($review)
+       ],Response::HTTP_CREATED);
     }
 
     /**
@@ -75,9 +95,13 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Book $book, Review $review)
     {
-        //
+         $review->update($request->all());
+         //dispay a book detail after creation
+       return Response([
+        'data' => new ReviewResource($review)
+       ],Response::HTTP_CREATED);
     }
 
     /**
@@ -86,8 +110,14 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Book $book, Review $review)
     {
-        //
+         //this method check if a user is the owner of a particular book he/she is trying to delete
+        //$this->bookUserCheck($book);
+        //delete a book
+       $review->delete();
+
+        //this method return a no content response afetr a book has been succesfully deleted
+       return Response(null,Response::HTTP_NO_CONTENT);
     }
 }
