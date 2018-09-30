@@ -1,58 +1,116 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This is an API only App that display a list of books available in bookstore, 
+Customers can:
+-view all books in stuck
+-add books
+-review books
+-rate a book by giving it star ranging from 1-5 digits
+-update review
+-delete review
 
-## About Laravel
+To view documentation in detail, Visit POSTMAN Public url here https://documenter.getpostman.com/view/5369523/RWgjZhL8
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+OR 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+TO VIEW ALL BOOKS
+To view all books visite the url below------
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+curl --request GET \
+  --url https://itaforfrancis.000webhostapp.com/index.php/api/books
 
-## Learning Laravel
+  TO ADD A BOOK
+Enter the book title and description-------
+ 
+curl --request POST \
+  --url https://itaforfrancis.000webhostapp.com/index.php/api/books \
+  --header 'Accept: application/json' \
+  --header 'Authorization: {{auth}}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"title" : "Laravel for begginers",
+	"description" : "Absolutely writen for begginers by Dr. Francis"
+}'
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+TO CREATE REVIEW AND RATE BOOK
+Enter the book id in the ure below--------
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+curl --request POST \
+  --url https://itaforfrancis.000webhostapp.com/index.php/api/books/43/reviews \
+  --header 'Accept: application/json' \
+  --header 'Authorization: {{auth}}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+"customer" : "Review by Dr. Francis",
+"star" : "5",
+"review" : "Excellent"
+}'
 
-## Laravel Sponsors
+TO UPDATE BOOK
+Enter the book id in the ure below--------
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+curl --request PUT \
+  --url https://itaforfrancis.000webhostapp.com/index.php/api/books/44 \
+  --header 'Accept: application/json' \
+  --header 'Authorization: {{auth}}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"title" : "book id 64 updated",
+	"description" : "for dynamic pages making  test"
+}'
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+TO DELETE BOOK
+Enter the book id in the ure below--------
 
-## Contributing
+curl --request DELETE \
+  --url https://itaforfrancis.000webhostapp.com/index.php/api/books/54 \
+  --header 'Accept: application/json' \
+  --header 'Authorization: {{auth}}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"title" : "testing by  franck pls work",
+	"description" : "testing now ok",
+	"user_id" : "1"
+}'
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+TO UPDATE REVIEW
+Enter the id of the book and that of the review in the ur below------
 
-## Security Vulnerabilities
+curl --request PUT \
+  --url https://itaforfrancis.000webhostapp.com/index.php/api/books/37/reviews/63 \
+  --header 'Accept: application/json' \
+  --header 'Authorization: {{auth}}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+        "customer": "Mr. FRANCIS I update",
+        "star": 5,
+        "review": "excellent update"
+}'
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+GENERATE AUTHENTICATION TOKEN
 
-## License
+curl --request POST \
+  --url https://itaforfrancis.000webhostapp.com/oauth/token \
+  --header 'Accept: application/json' \
+  --header 'Authorization: {{auth}}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"grant_type" : "password",
+	"client_id" : "2",
+	"client_secret" : "q7p0QWD0cewea9t0Ddvw59e5CRwi64kuUdLi6hUw",
+	"username" : "itafor@gmail.com",// your username
+	"password" : "francis" // your password
+}'
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+PLEASE NOTE: 
+the Update and Delete Operation worked fine on  localhost (i.e Xampp server)
+but don't work  online due to the following reasons
+
+Self-signed SSL certificates are being blocked:
+Fix this by turning off 'SSL certificate verification' in Settings > General
+Proxy configured incorrectly
+Ensure that proxy is configured correctly in Settings > Proxy
+Request timeout:
+Change request timeout in Settings > General
+
+
+I dont have access to the above files because i am using free host

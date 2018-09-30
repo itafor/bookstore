@@ -8,16 +8,17 @@ use App\Model\Book;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
+//use App\User;
 class ReviewController extends Controller
 {
 
+
 //securing end point to review and rate a book
-    // public function __construct()
-    // {
-    //   $this->middleware('auth:api');
-    // }
+ public function __construct(){
+        $this->middleware('auth:api')->except('index','show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -48,24 +49,23 @@ class ReviewController extends Controller
     public function store(ReviewRequest $request, Book $book, Review $review)
     {
         
-        // $review = new Review($request->all());
-        // $book->reviews()->save($review);
+         // $review = new Review($request->all());
+         // $book->reviews()->save($review);
+      
+        $review           = new Review();
+        $review->book_id  = $book->id;
+        $review->user_id  = $request->user()->id; 
+        $review->customer = $request->customer;
+        $review->star     = $request->star;
+        $review->review   = $request->review;
+        $review->save();
 
-        $review = Review::create([
-        'book_id' => $book->id,
-        'user_id' => 3, //auth::user()->id(), having issue here auth dont seem to work here
-        'customer' => $request->customer,
-        'star' => $request->star,
-        'review' => $request->review,
-      ]);
-
-    
         //dispay a book detail after creation
        return Response([
         'data' => new ReviewResource($review)
        ],Response::HTTP_CREATED);
-    }
-
+   
+}
     /**
      * Display the specified resource.
      *

@@ -2,7 +2,7 @@
 -- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
+-- Host: localhost
 -- Generation Time: Sep 19, 2018 at 04:39 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bookstore`
+-- Database: `id968040_bookstore`
 --
 
 -- --------------------------------------------------------

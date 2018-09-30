@@ -45,6 +45,9 @@ class BookController extends Controller
      */
     public function store(BookRequest $request, Book $book)
     {
+         if ($request->user()->id == "") {
+        return response()->json(['error' => 'Pls login to add book.'], 403);
+      }
            // creating a new book
        $books = Book::create([
         'user_id' => $request->user()->id,
@@ -119,13 +122,13 @@ class BookController extends Controller
         $this->bookUserCheck($book);
         //delete a book
        $book->delete();
-
         //this method return a no content response afetr a book has been succesfully deleted
        return Response(null,Response::HTTP_NO_CONTENT);
     }
 
         //this method check if a user is the owner of a particular book he/she is trying to delete
     public function bookUserCheck(Book $book){
+        
         if(Auth::id() !== $book->user_id){
     
             //This is an exception that get rendered if a user takes illegal action
